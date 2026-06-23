@@ -334,6 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 try {
                     stopLoadingAnimation();
                     renderResult(data);
+                    loadHistoryList(); // Update the history list so the new analysis shows up immediately
                     scrollToElement(resultsSection);
                     
                     if (data.is_mock) {
