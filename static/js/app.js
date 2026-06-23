@@ -301,6 +301,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const username = usernameInput.value.trim();
         
         if (!username) return;
+        
+        usernameInput.blur(); // Remove focus from the input field to allow proper smooth scrolling
 
         // Show loading
         startLoadingAnimation();
@@ -377,49 +379,52 @@ document.addEventListener("DOMContentLoaded", () => {
         resultsSection.classList.remove("hidden");
         
         // Fill Texts
-        resUsername.textContent = `@${data.username}`;
-        resPersonalityType.textContent = data.personality_type;
-        resIntelIndicator.textContent = `Intelligence Bracket: ${data.intelligence_indicator}`;
-        resOverview.textContent = data.overview;
-        resCommunicationStyle.textContent = data.communication_style;
-        resLearningStyle.textContent = data.learning_style;
+        resUsername.textContent = `@${data.username || ''}`;
+        resPersonalityType.textContent = data.personality_type || '';
+        resIntelIndicator.textContent = `Intelligence Bracket: ${data.intelligence_indicator || ''}`;
+        resOverview.textContent = data.overview || '';
+        resCommunicationStyle.textContent = data.communication_style || '';
+        resLearningStyle.textContent = data.learning_style || '';
         
         // Circular Gauge Animation
-        resConfidenceScore.textContent = data.confidence_score;
+        resConfidenceScore.textContent = data.confidence_score || 0;
         if (confidenceRing && confidenceRing.r && confidenceRing.r.baseVal) {
             const radius = confidenceRing.r.baseVal.value;
             const circumference = 2 * Math.PI * radius;
             confidenceRing.style.strokeDasharray = `${circumference} ${circumference}`;
             
             // Animate stroke dashoffset
-            const offset = circumference - (data.confidence_score / 100) * circumference;
+            const score = data.confidence_score || 0;
+            const offset = circumference - (score / 100) * circumference;
             confidenceRing.style.strokeDashoffset = offset;
         }
 
         // Slider Bar
         // Introvert vs Extrovert
+        const introvertExtrovertVal = typeof data.introvert_extrovert_meter === 'number' ? data.introvert_extrovert_meter : 50;
         if (resIntrovertExtrovertPct) {
-            resIntrovertExtrovertPct.textContent = `Introvert: ${100 - data.introvert_extrovert_meter}% / Extrovert: ${data.introvert_extrovert_meter}%`;
+            resIntrovertExtrovertPct.textContent = `Introvert: ${100 - introvertExtrovertVal}% / Extrovert: ${introvertExtrovertVal}%`;
         }
         if (resSpectrumHandle) {
-            resSpectrumHandle.style.left = `${data.introvert_extrovert_meter}%`;
+            resSpectrumHandle.style.left = `${introvertExtrovertVal}%`;
         }
 
         // Fill Progress Bars
-        animateProgressBar(resCreativityBar, resCreativityVal, data.creativity_score);
-        animateProgressBar(resLeadershipBar, resLeadershipVal, data.leadership_score);
-        animateProgressBar(resSocialEnergyBar, resSocialEnergyVal, data.social_energy_score);
-        animateProgressBar(resHumorBar, resHumorVal, data.humor_level);
+        animateProgressBar(resCreativityBar, resCreativityVal, data.creativity_score || 0);
+        animateProgressBar(resLeadershipBar, resLeadershipVal, data.leadership_score || 0);
+        animateProgressBar(resSocialEnergyBar, resSocialEnergyVal, data.social_energy_score || 0);
+        animateProgressBar(resHumorBar, resHumorVal, data.humor_level || 0);
 
         // Lists
-        populateList(resStrengthsList, data.strengths);
-        populateList(resWeaknessesList, data.weaknesses);
-        populateList(resHiddenTalentsList, data.hidden_talents);
-        populateList(resFactsList, data.fun_facts);
+        populateList(resStrengthsList, data.strengths || []);
+        populateList(resWeaknessesList, data.weaknesses || []);
+        populateList(resHiddenTalentsList, data.hidden_talents || []);
+        populateList(resFactsList, data.fun_facts || []);
 
         // Career Badges
         resCareersContainer.innerHTML = "";
-        data.career_recommendations.forEach(career => {
+        const careers = data.career_recommendations || [];
+        careers.forEach(career => {
             const span = document.createElement("span");
             span.className = "career-badge";
             span.textContent = career;
@@ -427,17 +432,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         // Insights Section
-        resInsightSays.textContent = data.insights.what_says_about_you;
-        resInsightPerceive.textContent = data.insights.how_others_perceive_you;
-        resInsightSuccess.textContent = data.insights.future_success_areas;
-        resInsightUnique.textContent = data.insights.unique_traits;
+        resInsightSays.textContent = data.insights?.what_says_about_you || '';
+        resInsightPerceive.textContent = data.insights?.how_others_perceive_you || '';
+        resInsightSuccess.textContent = data.insights?.future_success_areas || '';
+        resInsightUnique.textContent = data.insights?.unique_traits || '';
 
         // Entertainment Archetypes
-        resSyncAnimal.textContent = data.entertainment.spirit_animal;
-        resSyncSuperhero.textContent = data.entertainment.superhero_match;
-        resSyncCharacter.textContent = data.entertainment.movie_character;
-        resSyncGamer.textContent = data.entertainment.gamer_archetype;
-        resSyncQuote.textContent = `"${data.entertainment.motivational_quote}"`;
+        resSyncAnimal.textContent = data.entertainment?.spirit_animal || '';
+        resSyncSuperhero.textContent = data.entertainment?.superhero_match || '';
+        resSyncCharacter.textContent = data.entertainment?.movie_character || '';
+        resSyncGamer.textContent = data.entertainment?.gamer_archetype || '';
+        resSyncQuote.textContent = data.entertainment?.motivational_quote ? `"${data.entertainment.motivational_quote}"` : '';
 
         // Render Radar Chart
         try {
