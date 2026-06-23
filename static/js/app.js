@@ -198,7 +198,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     
                     renderResult(item.result);
                     toggleHistorySidebar(false);
-                    scrollToElement(resultsSection);
+                    setTimeout(() => {
+                        scrollToElement(resultsSection);
+                    }, 100);
                 });
 
                 // Deleting individual item
@@ -335,7 +337,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     stopLoadingAnimation();
                     renderResult(data);
                     loadHistoryList(); // Update the history list so the new analysis shows up immediately
-                    scrollToElement(resultsSection);
+                    
+                    // Defer scrolling slightly to ensure layout is updated and section is unhidden
+                    setTimeout(() => {
+                        scrollToElement(resultsSection);
+                    }, 100);
                     
                     if (data.is_mock) {
                         showToast("Offline fallback triggered! (Keys missing/quota limit)");
