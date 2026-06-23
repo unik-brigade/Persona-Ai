@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PersonaAI – Personality Analyzer</title>
+    <meta name="description"
+        content="Discover the hilarious, entertaining, and surprisingly accurate personality traits behind any username, handle, or gamer tag. Powered by Gemini AI.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/jpeg" href="../static/logo.jpg">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+
+    <!-- Ambient Glowing Background Blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <!-- Header Navigation -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <span class="logo-text">Persona<span class="gradient-text">AI</span></span>
+            </div>
+            <div class="header-actions">
+                <button id="btn-theme-toggle" class="icon-btn" aria-label="Toggle Dark/Light Mode" title="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button id="btn-toggle-history" class="icon-btn text-btn" aria-label="Open History Dashboard">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>History</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="app-main">
+
+        <!-- HERO SECTION -->
+        <section id="hero-section" class="hero-section">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <span class="badge">Gemini-Powered Analysis</span>
+                    <h1 class="hero-title">Discover the Personality Behind Any <span
+                            class="gradient-text-alt">Username</span></h1>
+                    <p class="hero-subtitle">
+                        Enter an Instagram handle, gamer tag, nickname, or online alias. Our advanced AI will dissect
+                        its vibe to reveal your secret identity, strengths, spirit animal, and career paths.
+                    </p>
+
+                    <form id="analyzer-form" class="analyzer-form" onsubmit="event.preventDefault();">
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-at input-icon"></i>
+                            <input type="text" id="username-input" placeholder="e.g. CyberSamurai, CodingCat" required
+                                maxlength="30" autocomplete="off">
+                        </div>
+                        <button type="submit" id="btn-analyze" class="btn btn-primary">
+                            <span>Analyze Alias</span>
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </button>
+                    </form>
+                    <div id="form-error" class="form-error hidden">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span id="error-message">Oops! Something went wrong.</span>
+                    </div>
+                </div>
+
+                <!-- Hero AI Art / Graphic -->
+                <div class="hero-graphic">
+                    <div class="clay-illustration-container">
+                        <!-- Custom Animated Clay SVG -->
+                        <svg class="clay-brain-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <radialGradient id="clayGrad" cx="30%" cy="30%" r="70%">
+                                    <stop offset="0%" stop-color="#a78bfa" />
+                                    <stop offset="70%" stop-color="#8b5cf6" />
+                                    <stop offset="100%" stop-color="#6d28d9" />
+                                </radialGradient>
+                                <radialGradient id="cyanGrad" cx="30%" cy="30%" r="70%">
+                                    <stop offset="0%" stop-color="#22d3ee" />
+                                    <stop offset="70%" stop-color="#06b6d4" />
+                                    <stop offset="100%" stop-color="#0891b2" />
+                                </radialGradient>
+                                <radialGradient id="emeraldGrad" cx="30%" cy="30%" r="70%">
+                                    <stop offset="0%" stop-color="#34d399" />
+                                    <stop offset="70%" stop-color="#10b981" />
+                                    <stop offset="100%" stop-color="#059669" />
+                                </radialGradient>
+                                <filter id="clayShadow" x="-20%" y="-20%" width="140%" height="140%">
+                                    <feDropShadow dx="2" dy="8" stdDeviation="6" flood-opacity="0.3" />
+                                    <feDropShadow dx="-2" dy="-2" stdDeviation="4" flood-color="#ffffff"
+                                        flood-opacity="0.1" />
+                                </filter>
+                            </defs>
+
+                            <!-- Floating background bubbles -->
+                            <circle cx="50" cy="50" r="15" fill="url(#cyanGrad)" opacity="0.6" filter="url(#clayShadow)"
+                                class="floating-bubble bubble-slow" />
+                            <circle cx="150" cy="140" r="22" fill="url(#emeraldGrad)" opacity="0.5"
+                                filter="url(#clayShadow)" class="floating-bubble bubble-fast" />
+                            <circle cx="160" cy="40" r="10" fill="url(#clayGrad)" opacity="0.7"
+                                filter="url(#clayShadow)" class="floating-bubble bubble-medium" />
+
+                            <!-- Main central neural node -->
+                            <g class="main-brain-node">
+                                <circle cx="100" cy="100" r="45" fill="url(#clayGrad)" filter="url(#clayShadow)" />
+                                <!-- Orbiting rings -->
+                                <circle cx="100" cy="100" r="60" fill="none" stroke="#06b6d4" stroke-width="2"
+                                    stroke-dasharray="8 6" opacity="0.5" class="spin-ring" />
+                                <circle cx="100" cy="100" r="75" fill="none" stroke="#10b981" stroke-width="1.5"
+                                    stroke-dasharray="15 10" opacity="0.4" class="spin-ring-reverse" />
+                                <!-- Inner designs -->
+                                <path d="M 85,100 A 15,15 0 0,1 115,100" stroke="#ffffff" stroke-width="3"
+                                    stroke-linecap="round" fill="none" opacity="0.8" />
+                                <circle cx="85" cy="100" r="4" fill="#ffffff" />
+                                <circle cx="115" cy="100" r="4" fill="#ffffff" />
+                                <path d="M 90,115 Q 100,122 110,115" stroke="#ffffff" stroke-width="3"
+                                    stroke-linecap="round" fill="none" />
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOADING OVERLAY SECTION -->
+        <section id="loading-overlay" class="loading-overlay hidden">
+            <div class="loader-content clay-card">
+                <div class="spinner-container">
+                    <div class="clay-spinner"></div>
+                    <i class="fa-solid fa-wand-magic-sparkles magic-icon-spin"></i>
+                </div>
+                <h3 id="loader-status-title">Calibrating Synapses...</h3>
+                <p id="loader-status-text" class="status-msg">Accessing personality database...</p>
+                <div class="loading-progress-bar">
+                    <div class="loading-progress-fill"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESULTS SECTION -->
+        <section id="results-section" class="results-section hidden">
+
+            <!-- Dashboard Controls -->
+            <div class="dashboard-header flex-header">
+                <div>
+                    <span class="results-badge"><i class="fa-solid fa-sparkles"></i> AI Analysis Complete</span>
+                    <h2 class="results-username-title">Report for: <span id="res-username"
+                            class="gradient-text-alt">@Username</span></h2>
+                </div>
+                <div class="result-actions">
+                    <button id="btn-share" class="btn btn-secondary">
+                        <i class="fa-solid fa-share-nodes"></i>
+                        <span>Share Report</span>
+                    </button>
+                    <button id="btn-download-pdf" class="btn btn-accent">
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <span>Download PDF</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- PDF PRINTING CONTAINER (Wraps everything below) -->
+            <div id="pdf-report-content" class="pdf-container">
+
+                <!-- TOP ANALYSIS OVERVIEW PANEL -->
+                <div class="analysis-hero-grid">
+
+                    <!-- Personality Type Card -->
+                    <div class="clay-card accent-purple-glow text-center flex-center-val">
+                        <span class="card-tag">Personality Archetype</span>
+                        <h3 id="res-personality-type" class="personality-type-text">The Sarcastic Strategist</h3>
+                        <p class="archetype-description" id="res-intelligence-indicator-banner">Intelligence Category:
+                            Tactical Wizard</p>
+                    </div>
+
+                    <!-- Confidence Meter Card (Circular Gauge) -->
+                    <div class="clay-card text-center flex-center-val">
+                        <span class="card-tag">Vibe Confidence Score</span>
+                        <div class="circular-progress-wrapper">
+                            <svg class="progress-ring" width="120" height="120">
+                                <circle class="progress-ring-bg" stroke="rgba(255,255,255,0.06)" stroke-width="12"
+                                    fill="transparent" r="50" cx="60" cy="60" />
+                                <circle id="confidence-ring" class="progress-ring-fill" stroke="url(#emeraldGrad)"
+                                    stroke-width="12" stroke-linecap="round" fill="transparent" r="50" cx="60" cy="60"
+                                    stroke-dasharray="314.16" stroke-dashoffset="314.16" />
+                            </svg>
+                            <div class="circular-progress-text">
+                                <span id="res-confidence-score">90</span><span class="pct">%</span>
+                            </div>
+                        </div>
+                        <p class="small-tag text-muted">A high score indicates strong username coherence</p>
+                    </div>
+                </div>
+
+                <!-- PERSONALITY STATS BARS -->
+                <div class="stats-panel-grid">
+                    <div class="clay-card">
+                        <h4 class="section-card-title"><i class="fa-solid fa-chart-bar text-primary"></i> Vibe Spectrum
+                        </h4>
+
+                        <!-- Introvert vs Extrovert Slider -->
+                        <div class="stat-bar-group">
+                            <div class="bar-labels">
+                                <span><i class="fa-solid fa-moon"></i> Introvert</span>
+                                <span id="res-introvert-extrovert-pct">50% / 50%</span>
+                                <span>Extrovert <i class="fa-solid fa-sun"></i></span>
+                            </div>
+                            <div class="spectrum-track">
+                                <div id="res-spectrum-handle" class="spectrum-fill-bar"></div>
+                            </div>
+                        </div>
+
+                        <!-- Creativity Score Bar -->
+                        <div class="stat-bar-group">
+                            <div class="bar-labels">
+                                <span><i class="fa-solid fa-palette text-accent"></i> Creativity</span>
+                                <span id="res-creativity-val">85%</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div id="res-creativity-bar" class="progress-bar-fill bg-accent" style="width: 0%;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Leadership Score Bar -->
+                        <div class="stat-bar-group">
+                            <div class="bar-labels">
+                                <span><i class="fa-solid fa-crown text-secondary"></i> Leadership</span>
+                                <span id="res-leadership-val">70%</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div id="res-leadership-bar" class="progress-bar-fill bg-secondary" style="width: 0%;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Social Energy Score Bar -->
+                        <div class="stat-bar-group">
+                            <div class="bar-labels">
+                                <span><i class="fa-solid fa-bolt text-primary"></i> Social Energy</span>
+                                <span id="res-social-energy-val">60%</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div id="res-social-energy-bar" class="progress-bar-fill bg-primary" style="width: 0%;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Humor level Bar -->
+                        <div class="stat-bar-group">
+                            <div class="bar-labels">
+                                <span><i class="fa-solid fa-face-laugh-wink text-yellow"></i> Humor & Sarcasm</span>
+                                <span id="res-humor-val">95%</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div id="res-humor-bar" class="progress-bar-fill bg-yellow" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart Radar Card -->
+                    <div class="clay-card flex-center-val">
+                        <h4 class="section-card-title"><i class="fa-solid fa-chart-pie text-secondary"></i> Character
+                            Polygon</h4>
+                        <div class="chart-container">
+                            <canvas id="personality-radar-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RESULTS DASHBOARD GLASS CARDS -->
+                <div class="dashboard-details-grid">
+
+                    <!-- Overview -->
+                    <div class="clay-card col-span-2">
+                        <h4 class="section-card-title"><i class="fa-solid fa-user-astronaut text-primary"></i>
+                            Personality Overview</h4>
+                        <p id="res-overview" class="overview-body-text">
+                            Analyzing this profile yields deep indicators...
+                        </p>
+                    </div>
+
+                    <!-- Strengths Card -->
+                    <div class="clay-card">
+                        <h4 class="section-card-title text-emerald"><i class="fa-solid fa-circle-check"></i> Superpowers
+                        </h4>
+                        <ul id="res-strengths-list" class="styled-list check-list">
+                            <li>Analytic thinking</li>
+                            <li>Quick reflexes</li>
+                        </ul>
+                    </div>
+
+                    <!-- Weaknesses Card -->
+                    <div class="clay-card">
+                        <h4 class="section-card-title text-purple"><i class="fa-solid fa-circle-xmark"></i> System Flaws
+                        </h4>
+                        <ul id="res-weaknesses-list" class="styled-list cross-list">
+                            <li>Distracted by memes</li>
+                            <li>Lacks patience</li>
+                        </ul>
+                    </div>
+
+                    <!-- Hidden Talents -->
+                    <div class="clay-card">
+                        <h4 class="section-card-title text-cyan"><i class="fa-solid fa-key"></i> Secret Skills</h4>
+                        <ul id="res-hidden-talents-list" class="styled-list key-list">
+                            <li>Sleeping through alarms</li>
+                            <li>High-speed sarcasm</li>
+                        </ul>
+                    </div>
+
+                    <!-- Learning & Communication Styles -->
+                    <div class="clay-card">
+                        <h4 class="section-card-title"><i class="fa-solid fa-comments text-accent"></i> Style Profiles
+                        </h4>
+                        <div class="style-item">
+                            <strong class="text-secondary">Communication:</strong>
+                            <p id="res-communication-style" class="small-p">Direct, text-based dry sarcasm.</p>
+                        </div>
+                        <div class="style-item mt-3">
+                            <strong class="text-primary">Learning:</strong>
+                            <p id="res-learning-style" class="small-p">Trial-and-error by dismantling things.</p>
+                        </div>
+                    </div>
+
+                    <!-- Career suggestions -->
+                    <div class="clay-card col-span-2">
+                        <h4 class="section-card-title"><i class="fa-solid fa-briefcase text-secondary"></i> AI Career
+                            Forecast</h4>
+                        <div class="careers-badges-container" id="res-careers-container">
+                            <span class="career-badge">AI Whisperer</span>
+                            <span class="career-badge">Meme Curator</span>
+                            <span class="career-badge">Crypto Ethicist</span>
+                        </div>
+                    </div>
+
+                    <!-- Fun facts -->
+                    <div class="clay-card col-span-2">
+                        <h4 class="section-card-title"><i class="fa-solid fa-lightbulb text-yellow"></i> Fun Facts</h4>
+                        <ul id="res-facts-list" class="styled-list bulb-list">
+                            <li>You have 18 unread emails that you have marked read in your mind.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- AI INSIGHTS SECTION -->
+                <h3 class="section-divider-title">AI Diagnostics</h3>
+                <div class="insights-grid">
+
+                    <div class="clay-card border-left-emerald">
+                        <h5 class="insight-label text-emerald">Alias Subtext</h5>
+                        <p id="res-insight-says" class="insight-text">What this username says about your inner core.</p>
+                    </div>
+
+                    <div class="clay-card border-left-cyan">
+                        <h5 class="insight-label text-cyan">First Impression</h5>
+                        <p id="res-insight-perceive" class="insight-text">How others immediately perceive your tag.</p>
+                    </div>
+
+                    <div class="clay-card border-left-purple">
+                        <h5 class="insight-label text-purple">Success Vector</h5>
+                        <p id="res-insight-success" class="insight-text">Future domains that yield maximum progress.</p>
+                    </div>
+
+                    <div class="clay-card border-left-yellow">
+                        <h5 class="insight-label text-yellow">Anomalous Trait</h5>
+                        <p id="res-insight-unique" class="insight-text">A unique custom indicator detected by AI.</p>
+                    </div>
+                </div>
+
+                <!-- ENTERTAINMENT SECTION -->
+                <h3 class="section-divider-title">Cultural & Archetype Sync</h3>
+                <div class="entertainment-grid">
+
+                    <div class="clay-card text-center flex-center-val sync-card">
+                        <div class="sync-icon text-primary"><i class="fa-solid fa-paw"></i></div>
+                        <span class="card-tag">Spirit Animal</span>
+                        <h5 id="res-sync-animal" class="sync-value">Caffeinated Raccoon</h5>
+                    </div>
+
+                    <div class="clay-card text-center flex-center-val sync-card">
+                        <div class="sync-icon text-accent"><i class="fa-solid fa-mask"></i></div>
+                        <span class="card-tag">Superhero Match</span>
+                        <h5 id="res-sync-superhero" class="sync-value">Iron Man (Economy Class)</h5>
+                    </div>
+
+                    <div class="clay-card text-center flex-center-val sync-card">
+                        <div class="sync-icon text-secondary"><i class="fa-solid fa-film"></i></div>
+                        <span class="card-tag">Movie Character</span>
+                        <h5 id="res-sync-character" class="sync-value">Sherlock Holmes (Rapid)</h5>
+                    </div>
+
+                    <div class="clay-card text-center flex-center-val sync-card">
+                        <div class="sync-icon text-purple"><i class="fa-solid fa-gamepad"></i></div>
+                        <span class="card-tag">Gamer Class</span>
+                        <h5 id="res-sync-gamer" class="sync-value">Stealth Sniper</h5>
+                    </div>
+
+                    <div class="clay-card text-center col-span-full quote-card">
+                        <div class="quote-mark-icon"><i class="fa-solid fa-quote-left"></i></div>
+                        <span class="card-tag">AI Custom Quote</span>
+                        <blockquote id="res-sync-quote" class="motivational-quote-text">
+                            "Do not take life too seriously. You will never get out of it alive."
+                        </blockquote>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Navigation Back to Top -->
+            <div class="text-center mt-5 mb-5">
+                <button id="btn-history-back" class="btn btn-secondary">
+                    <i class="fa-solid fa-arrow-up"></i>
+                    <span>Back to Top</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- HISTORY PANEL SIDEBAR -->
+    <aside id="history-sidebar" class="history-sidebar">
+        <div class="sidebar-header">
+            <div class="flex-align-center">
+                <i class="fa-solid fa-history sidebar-title-icon"></i>
+                <h3 class="sidebar-title">Analysis History</h3>
+            </div>
+            <button id="btn-close-history" class="icon-btn" aria-label="Close History Panel">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="sidebar-search">
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="history-search-input" placeholder="Search usernames...">
+            </div>
+        </div>
+
+        <!-- History List container -->
+        <div class="sidebar-content">
+            <ul id="history-items-list" class="history-items-list">
+                <!-- Dynamically populated -->
+                <li class="empty-history-msg text-center text-muted">
+                    <i class="fa-solid fa-folder-open"></i>
+                    <p>No analyses found. Time to scan some tags!</p>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Sidebar Overlay backdrop -->
+    <div id="sidebar-overlay" class="sidebar-overlay hidden"></div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">
+        <i class="fa-solid fa-info-circle toast-icon"></i>
+        <span id="toast-message">Copied to clipboard!</span>
+    </div>
+
+    <!-- Libraries -->
+    <!-- Chart.js for radar plots -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- html2pdf.js for client-side PDF creation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <!-- Custom Application Code -->
+    <script src="../static/js/app.js"></script>
+</body>
+
+</html>
