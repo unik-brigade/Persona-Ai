@@ -11,9 +11,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const errorMessage = document.getElementById("error-message");
     const heroSection = document.getElementById("hero-section");
     
-    // Helper to proxy requests to Flask port 5000 if page is opened on another port (e.g., Live Server port 5500, or directly via file://)
+    // Helper to proxy requests to Flask port 5000 if page is opened on another port locally (e.g., Live Server port 5500, or directly via file://)
     function getApiUrl(path) {
-        if (window.location.port !== '5000' || window.location.protocol === 'file:') {
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        if ((isLocalhost && window.location.port !== '5000') || window.location.protocol === 'file:') {
             return `http://127.0.0.1:5000${path}`;
         }
         return path;
