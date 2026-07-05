@@ -17,7 +17,12 @@ mimetypes.add_type('text/css', '.css')
 load_dotenv()
 
 app = Flask(__name__)
-DB_FILE = 'database.db'
+
+# On Vercel, use /tmp for the SQLite database since the root directory is read-only
+if os.environ.get('VERCEL'):
+    DB_FILE = '/tmp/database.db'
+else:
+    DB_FILE = 'database.db'
 
 @app.after_request
 def add_cors_headers(response):
